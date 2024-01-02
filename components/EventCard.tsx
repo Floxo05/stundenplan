@@ -12,8 +12,8 @@ const EventCard: React.FC<EventCardProps> = ({event, index}) => {
         <td key={index}>
             {event ? (
                 <div className={"p-2 bg-gray-500 rounded"}>
-                    <p className="text-xl font-bold">{event.title}</p>
-                    <p className="text-gray-400">{event.description}</p>
+                    <p className="text-xl font-bold">{event.description}</p>
+                    <p className="text-gray-400">{event.room}</p>
                     <p className="text-gray-400">{`Start: ${format(new Date(event.date), 'HH:mm')} | End: ${format(
                         new Date(event.dateEnd),
                         'HH:mm'

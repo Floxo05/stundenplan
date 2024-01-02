@@ -63,6 +63,7 @@ const CalendarPage: React.FC = () => {
                 description: item.description,
                 date: new Date(item.start * 1000).toISOString(), // Umwandlung von Unix-Zeitstempel in ISO-Format
                 dateEnd: new Date(item.end * 1000).toISOString(), // Umwandlung von Unix-Zeitstempel in ISO-Format
+                room: item.room,
             }));
 
             setEvents(transformedData);
@@ -107,8 +108,6 @@ const CalendarPage: React.FC = () => {
     };
 
     const renderTableBody = () => {
-        // Erzeuge für jeden Tag eine Spalte mit den dazugehörigen Terminen
-
         return allEventsForWeek.map((dayEvents, index) => (
             <tr key={index}>
                 {dayEvents.map((event, index) => (
