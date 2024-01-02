@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useState} from 'react';
+import {SetStateAction, useEffect, useState} from 'react';
 import {addDays, endOfDay, endOfWeek, format, startOfDay, startOfWeek, subDays} from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 import {Event} from '@/types/types';
@@ -25,30 +25,48 @@ const CalendarPage: React.FC = () => {
 
     useEffect(() => {
         const startOfWeekDate = getStartOfWeek(currentDate);
-        const allEventsForWeek: Event[][] = [];
+        const allEventsForCurrentWeek: Event[][] = [];
 
         // Sammle alle Termine für die Woche in einem Array
         for (let i = 0; i < 5; i++) {
             const currentDay = addDays(startOfWeekDate, i);
             const currentDayEvents = getEventsForDay(currentDay);
-            allEventsForWeek.push(currentDayEvents);
+            allEventsForCurrentWeek.push(currentDayEvents);
         }
 
-        const allEventsObject = [];
+        const allEventsObject: SetStateAction<Event[][]> | null[][] = [];
+
+        const timeSpaces = {
+            8: 0,
+            10: 1,
+            12: 2,
+            14: 3,
+            15: 4,
+            17: 5,
+            19: 6
+        }
 
         for (let i = 0; i < 7; i++) {
             allEventsObject.push([])
+            let eventsToAdd = [];
             for (let j = 0; j < 5; j++) {
-                if (allEventsForWeek[j] !== undefined && allEventsForWeek[j][i] !== undefined) {
                     // @ts-ignore
-                    allEventsObject[i].push(allEventsForWeek[j][i])
-                } else {
-                    // @ts-ignore
-                    allEventsObject[i].push(null)
-                }
+                allEventsObject[i].push(null)
             }
         }
 
+        allEventsForCurrentWeek.map((eventsForDay, index) => {
+            eventsForDay.map((event, index2) => {
+                const startHour = new Date(event.date).getHours()
+
+                // @ts-ignore
+                allEventsObject[timeSpaces[startHour]][index] = event;
+            })
+        })
+
+
+
+        // @ts-ignore
         setAllEventsForWeek(allEventsObject)
     }, [events, currentDate]);
 
