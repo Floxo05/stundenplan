@@ -25,3 +25,23 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.table-container {
+  overflow-x: auto; /* Horizontales Scrollen, falls die Tabelle breiter ist als das Anzeigefenster */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em; /* Platz unterhalb der Tabelle für bessere Lesbarkeit */
+}
+
+/* Allgemeine Tabellenformatierung */
+.table th,
+.table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+

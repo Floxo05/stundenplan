@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {addDays, endOfDay, endOfWeek, format, startOfDay, startOfWeek, subDays} from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 import {Event} from '@/types/types';
+import EventCard from "@/components/EventCard";
 
 const CalendarPage: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([]);
@@ -105,32 +106,13 @@ const CalendarPage: React.FC = () => {
         );
     };
 
-    useEffect(() => {
-        // console.log((allEventsForWeek))
-    }, [allEventsForWeek]);
-
-
-
     const renderTableBody = () => {
         // Erzeuge für jeden Tag eine Spalte mit den dazugehörigen Terminen
 
         return allEventsForWeek.map((dayEvents, index) => (
             <tr key={index}>
                 {dayEvents.map((event, index) => (
-                    <td key={index}>
-                        {event ? (
-                            <div>
-                                <p className="text-xl font-bold">{event.title}</p>
-                                <p className="text-gray-400">{event.description}</p>
-                                <p className="text-gray-400">{`Start: ${format(new Date(event.date), 'HH:mm')} | End: ${format(
-                                    new Date(event.dateEnd),
-                                    'HH:mm'
-                                )}`}</p>
-                            </div>
-                        ) : (
-                            <div>Kein Event</div>
-                        )}
-                    </td>
+                    <EventCard event={event} index={index}/>
                 ))}
             </tr>
         ));
@@ -151,10 +133,12 @@ const CalendarPage: React.FC = () => {
                     Nächste Woche
                 </button>
             </div>
-            <table className="w-full table">
-                <thead>{renderTableHeader()}</thead>
-                <tbody>{renderTableBody()}</tbody>
-            </table>
+            <div className={"table-container"}>
+                <table className="w-full table">
+                    <thead>{renderTableHeader()}</thead>
+                    <tbody>{renderTableBody()}</tbody>
+                </table>
+            </div>
         </div>
     );
 };
