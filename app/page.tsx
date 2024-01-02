@@ -82,6 +82,7 @@ const CalendarPage: React.FC = () => {
                 date: new Date(item.start * 1000).toISOString(), // Umwandlung von Unix-Zeitstempel in ISO-Format
                 dateEnd: new Date(item.end * 1000).toISOString(), // Umwandlung von Unix-Zeitstempel in ISO-Format
                 room: item.room,
+                instructor: item.instructor
             }));
 
             setEvents(transformedData);
