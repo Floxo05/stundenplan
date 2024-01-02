@@ -10,7 +10,7 @@ fi
 url="https://selfservice.campus-dual.de/room/json?userid=$1&hash=$2"
 
 # Setze den Dateinamen für die lokale Speicherung
-output_file="data.json"
+output_file="public/data.json"
 
 # Führe den cURL-Befehl aus, um die Daten abzurufen und in die Datei zu speichern
 curl -svk $url -o "$output_file"
