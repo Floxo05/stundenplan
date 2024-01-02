@@ -9,18 +9,25 @@ const CalendarPage: React.FC = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [allEventsForWeek, setAllEventsForWeek] = useState<Event[][]>([[]]);
 
+    const getStartOfWeek = (date: Date) => {
+        return startOfWeek(date, {weekStartsOn: 1});
+    }
+
+    const getEndOfWeek = (date: Date) => {
+        return endOfWeek(date, {weekStartsOn: 1})
+    }
+
 
     useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
-        const startOfWeekDate = startOfWeek(currentDate);
-        const endOfWeekDate = endOfWeek(currentDate);
+        const startOfWeekDate = getStartOfWeek(currentDate);
         const allEventsForWeek: Event[][] = [];
 
         // Sammle alle Termine für die Woche in einem Array
-        for (let i = 1; i < 6; i++) {
+        for (let i = 0; i < 5; i++) {
             const currentDay = addDays(startOfWeekDate, i);
             const currentDayEvents = getEventsForDay(currentDay);
             allEventsForWeek.push(currentDayEvents);
@@ -80,11 +87,11 @@ const CalendarPage: React.FC = () => {
     };
 
     const handlePrevWeek = () => {
-        setCurrentDate((prevDate) => subDays(startOfWeek(prevDate), 1));
+        setCurrentDate((prevDate) => subDays(getStartOfWeek(prevDate), 1));
     };
 
     const handleNextWeek = () => {
-        setCurrentDate((prevDate) => addDays(endOfWeek(prevDate), 1));
+        setCurrentDate((prevDate) => addDays(getEndOfWeek(prevDate), 1));
     };
 
     const renderTableHeader = () => {
@@ -136,8 +143,8 @@ const CalendarPage: React.FC = () => {
                 <button onClick={handlePrevWeek} className="text-white">
                     Vorherige Woche
                 </button>
-                <span>{`${format(startOfWeek(currentDate), 'dd.MM.yyyy')} - ${format(
-                    endOfWeek(currentDate),
+                <span>{`${format(getStartOfWeek(currentDate), 'dd.MM.yyyy')} - ${format(
+                    getEndOfWeek(currentDate),
                     'dd.MM.yyyy'
                 )}`}</span>
                 <button onClick={handleNextWeek} className="text-white">
